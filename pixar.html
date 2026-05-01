@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixar by the Numbers — Ulises Lemus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F5F4F2;
+      --white: #FFFFFF;
+      --ink: #111111;
+      --ink-mid: #444444;
+      --ink-dim: #888888;
+      --border: #E0DFDC;
+      --tag-bg: #EFEFED;
+      --ocean: #1A4A72;
+      --orange: #C8521A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'EB Garamond', serif; font-size: 18px; line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO BANNER */
+    .case-banner {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(135deg, #1A4A72 0%, #2A3A4A 45%, #C8521A 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 65% 50%, rgba(200,82,26,0.25) 0%, transparent 65%);
+    }
+
+    .case-banner-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .case-banner-title {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 500;
+      color: #FFFFFF;
+      position: relative;
+    }
+
+    /* CONTENT */
+    .case-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 48px 100px;
+    }
+
+    .case-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+    }
+    .meta-val {
+      font-family: 'EB Garamond', serif;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .case-section { margin-bottom: 48px; }
+
+    .case-section h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .case-section p {
+      font-size: 18px;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .case-section p:last-child { margin-bottom: 0; }
+
+    /* INSIGHT CARDS */
+    .insight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .insight-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .insight-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .insight-card-ocean::before { background: var(--ocean); }
+    .insight-card-orange::before { background: var(--orange); }
+
+    .insight-num {
+      font-family: 'EB Garamond', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .insight-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+    }
+
+    /* TAGS */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 4px 12px;
+    }
+
+    /* CTA */
+    .case-cta {
+      display: flex;
+      gap: 12px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      color: var(--ink);
+      background: transparent;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+    .btn-primary {
+      background: var(--ocean);
+      color: var(--white);
+      border-color: var(--ocean);
+    }
+
+    .btn-primary:hover { background: #1A5A8A; border-color: #1A5A8A; color: var(--white); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-dim);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .case-content { padding: 40px 24px 60px; }
+      .insight-grid { grid-template-columns: 1fr; }
+      footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-name">Ulises Lemus</a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="case-banner">
+    <span class="case-banner-eyebrow">Case Study · Power BI</span>
+    <h1 class="case-banner-title">Pixar by the Numbers</h1>
+  </div>
+
+  <div class="case-content">
+
+    <div class="case-meta">
+      <div class="meta-item">
+        <span class="meta-label">Tools</span>
+        <span class="meta-val">Power BI, DAX</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Type</span>
+        <span class="meta-val">Portfolio Dashboard</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Pages</span>
+        <span class="meta-val">4 report pages</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Year</span>
+        <span class="meta-val">2026</span>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>The approach</h2>
+      <p>The goal was to build something beyond a class requirement — a dashboard I could actually use in my portfolio. Instead of a generic report, I themed the entire project around Finding Nemo, using a consistent ocean blue and orange palette across all four pages.</p>
+      <p>The report is structured to tell a cohesive data story. Each page builds on the previous one: starting with a high-level overview, diving into the financial details, then stepping back to ask what actually makes a Pixar film successful beyond just box office numbers.</p>
+      <div class="tag-row">
+        <span class="tag">Data Storytelling</span>
+        <span class="tag">Financial Analysis</span>
+        <span class="tag">DAX Measures</span>
+        <span class="tag">Star Schema</span>
+        <span class="tag">UX Design</span>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>Key numbers</h2>
+      <div class="insight-grid">
+        <div class="insight-card insight-card-ocean">
+          <div class="insight-num">28</div>
+          <div class="insight-label">Total Pixar films analyzed</div>
+        </div>
+        <div class="insight-card insight-card-orange">
+          <div class="insight-num">$17.04bn</div>
+          <div class="insight-label">Total worldwide box office</div>
+        </div>
+        <div class="insight-card insight-card-ocean">
+          <div class="insight-num">7.54</div>
+          <div class="insight-label">Average IMDb score</div>
+        </div>
+        <div class="insight-card insight-card-orange">
+          <div class="insight-num">17</div>
+          <div class="insight-label">Oscar wins across all films</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>What the data showed</h2>
+      <p>Inside Out 2 was the single most profitable film in Pixar's history at $1.5bn worldwide. Early films like Toy Story delivered ROI exceeding 1,000% due to modest production budgets — but as costs scaled, returns normalized across the catalog.</p>
+      <p>Only three films lost money: Onward, Soul, and Luca. All three were COVID-era releases redirected to Disney+ instead of theaters, making them outliers in any ROI analysis rather than signals of creative failure.</p>
+      <p>On the ratings side, critics consistently score Pixar higher than audiences — Rotten Tomatoes averages 95+ while IMDb averages around 75 to 80 on a scaled basis. Higher ratings do correlate with box office performance, but Oscar wins don't guarantee commercial success. Soul and WALL-E both won two Oscars but underperformed at the box office, suggesting audiences respond more to broad appeal than critical recognition.</p>
+    </div>
+
+    <div class="case-section">
+      <h2>Assumptions and data notes</h2>
+      <p>Luca had no budget data available in the source dataset, which was flagged as a gap in the financial analysis. COVID-era films were treated as outliers in ROI calculations given their unconventional release strategy. IMDb scores were scaled by a factor of 10 to allow direct comparison with Rotten Tomatoes scores on the same axis.</p>
+    </div>
+
+    <div class="case-cta">
+      <a href="https://app.powerbi.com/view?r=eyJrIjoiNDJmZDQzODQtM2NjMy00NTg5LWFmYzgtMzY3N2NkM2QyOGUyIiwidCI6IjE3MGJiYWJkLWEyZjAtNGM5MC1hZDRiLTBlOGYwZjBjNDI1OSIsImMiOjN9" target="_blank" class="btn btn-primary">View live dashboard</a>
+      <a href="index.html" class="btn">Back to portfolio</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="footer-text">Ulises Lemus · 2026</span>
+    <span class="footer-text">uliseslemus.com</span>
+  </footer>
+
+</body>
+</html>
