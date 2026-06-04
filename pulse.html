@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse CSM Dashboard — Ulises Lemus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F5F4F2;
+      --white: #FFFFFF;
+      --ink: #111111;
+      --ink-mid: #444444;
+      --ink-dim: #888888;
+      --border: #E0DFDC;
+      --tag-bg: #EFEFED;
+      --teal: #0D9E85;
+      --teal-dark: #085041;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'EB Garamond', serif; font-size: 18px; line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO BANNER */
+    .case-banner {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(135deg, #0A2A24 0%, #0D5A4A 45%, #0D9E85 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 65% 50%, rgba(13,158,133,0.25) 0%, transparent 65%);
+    }
+
+    .case-banner-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .case-banner-title {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 500;
+      color: #FFFFFF;
+      position: relative;
+    }
+
+    /* DASHBOARD PREVIEW */
+    .dashboard-preview {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 48px;
+      transform: translateY(-40px);
+    }
+
+    .dashboard-preview img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    /* CONTENT */
+    .case-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 48px 100px;
+    }
+
+    .case-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+    }
+    .meta-val {
+      font-family: 'EB Garamond', serif;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .case-section { margin-bottom: 48px; }
+
+    .case-section h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .case-section p {
+      font-size: 18px;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .case-section p:last-child { margin-bottom: 0; }
+
+    /* INSIGHT CARDS */
+    .insight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .insight-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .insight-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .insight-card-teal::before { background: var(--teal); }
+    .insight-card-dark::before { background: var(--teal-dark); }
+
+    .insight-num {
+      font-family: 'EB Garamond', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .insight-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+    }
+
+    /* TAGS */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 4px 12px;
+    }
+
+    /* CTA */
+    .case-cta {
+      display: flex;
+      gap: 12px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      color: var(--ink);
+      background: transparent;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+    .btn-primary {
+      background: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+
+    .btn-primary:hover { background: var(--teal-dark); border-color: var(--teal-dark); color: var(--white); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-dim);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .dashboard-preview { padding: 0 24px; }
+      .case-content { padding: 0 24px 60px; }
+      .insight-grid { grid-template-columns: 1fr; }
+      footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-name">Ulises Lemus</a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="case-banner">
+    <span class="case-banner-eyebrow">Case Study · Power BI · Customer Success</span>
+    <h1 class="case-banner-title">Pulse CSM Dashboard</h1>
+  </div>
+
+  <div class="dashboard-preview">
+    <img src="Pulse_Overview.png" alt="Pulse Customer Success Analytics Dashboard — Overview page" />
+  </div>
+
+  <div class="case-content">
+
+    <div class="case-meta">
+      <div class="meta-item">
+        <span class="meta-label">Tools</span>
+        <span class="meta-val">Power BI, DAX, Python</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Type</span>
+        <span class="meta-val">SaaS Analytics Dashboard</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Pages</span>
+        <span class="meta-val">4 report pages</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Year</span>
+        <span class="meta-val">2026</span>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>The approach</h2>
+      <p>Pulse is a fictional B2B SaaS platform. I built a synthetic dataset of 200 SMB and Enterprise accounts from scratch using Python, modeling realistic churn patterns, health score trends, seat adoption behavior, and renewal outcomes across a 24 month window.</p>
+      <p>The goal was to answer the three questions a CS team asks every week: how healthy is the book, why are customers leaving, and are they actually using the product? Every visual on the dashboard traces back to one of those questions. Nothing is decorative.</p>
+      <div class="tag-row">
+        <span class="tag">Customer Success</span>
+        <span class="tag">SaaS Metrics</span>
+        <span class="tag">DAX Measures</span>
+        <span class="tag">Galaxy Schema</span>
+        <span class="tag">Python</span>
+        <span class="tag">Synthetic Data</span>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>Key numbers</h2>
+      <div class="insight-grid">
+        <div class="insight-card insight-card-teal">
+          <div class="insight-num">$2M</div>
+          <div class="insight-label">Active ARR across 147 accounts</div>
+        </div>
+        <div class="insight-card insight-card-dark">
+          <div class="insight-num">76%</div>
+          <div class="insight-label">Net Revenue Retention</div>
+        </div>
+        <div class="insight-card insight-card-teal">
+          <div class="insight-num">62%</div>
+          <div class="insight-label">Average seat adoption rate</div>
+        </div>
+        <div class="insight-card insight-card-dark">
+          <div class="insight-num">14%</div>
+          <div class="insight-label">Overall churn rate</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>What the data showed</h2>
+      <p>Pricing was the leading churn driver at 9 accounts, nearly double the next closest reason. The more actionable finding was seat adoption: all four plan tiers plateaued around 60% within the first quarter and never recovered. That is not a pricing problem. It is an onboarding problem.</p>
+      <p>Health scores dipped sharply in early 2023 before recovering steadily through 2024, suggesting the CS team course-corrected mid-year. Logistics and FinTech led renewal rates at 91% and 82% respectively, while Legal Tech sat at 46%. That is the clearest signal of where to focus retention resources.</p>
+      <p>Enterprise accounts closed renewals in 59 days versus 51 for SMB. Given the higher ACV and stakeholder complexity, that gap is expected. Narrowing it by even a week represents meaningful ARR acceleration across the book.</p>
+    </div>
+
+    <div class="case-section">
+      <h2>Data model</h2>
+      <p>The dataset was built across six tables: customers, health scores, product usage, touchpoints, renewals, and CSM reps. These connect in a galaxy schema with customers and CSM reps as the central dimension tables. All DAX measures live in a dedicated measures table to keep the model clean and the report pages fast.</p>
+    </div>
+
+    <div class="case-cta">
+      <a href="https://app.powerbi.com/view?r=eyJrIjoiNjQyZGEzOGItNTIwZi00YTM1LWFhZGYtYjc1OTc4N2RjYzQ5IiwidCI6IjE3MGJiYWJkLWEyZjAtNGM5MC1hZDRi" target="_blank" class="btn btn-primary">View live dashboard →</a>
+      <a href="index.html" class="btn">Back to portfolio</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="footer-text">Ulises Lemus · 2026</span>
+    <span class="footer-text">uliseslemus.com</span>
+  </footer>
+
+</body>
+</html>
