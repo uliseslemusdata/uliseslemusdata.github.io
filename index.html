@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -335,6 +336,100 @@
 
     .contact-links { display: flex; gap: 12px; }
 
+    /* CONTACT FORM */
+    .contact-form {
+      max-width: 520px;
+      margin-top: 8px;
+      margin-bottom: 40px;
+    }
+
+    .form-row {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      font-family: 'EB Garamond', serif;
+      font-size: 17px;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 12px 14px;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--ink-dim);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+      font-family: 'EB Garamond', serif;
+    }
+
+    .form-submit {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--white);
+      background: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: 3px;
+      padding: 12px 28px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .form-submit:hover {
+      opacity: 0.85;
+    }
+
+    .form-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .form-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      margin-top: 16px;
+      display: none;
+    }
+
+    .form-status.success {
+      color: #2A6B4A;
+      display: block;
+    }
+
+    .form-status.error {
+      color: #B5442B;
+      display: block;
+    }
+
+    .form-divider {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-dim);
+      margin: 28px 0 20px;
+    }
+
     /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
@@ -461,7 +556,38 @@
 
   <div class="contact reveal" id="contact">
     <h2>Let's work together.</h2>
-    <p class="contact-desc">Open to data analyst and BI roles in Houston. Also available for consulting through Insignar.</p>
+    <p class="contact-desc">Open to data analyst and BI roles in Houston. Also available for consulting through Insignar. This form runs through Triage, an AI powered lead qualification system I built myself.</p>
+
+    <form class="contact-form" id="leadForm">
+      <div class="form-row">
+        <label class="form-label" for="name">Name</label>
+        <input class="form-input" type="text" id="name" name="name" required />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-input" type="email" id="email" name="email" required />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="company">Company</label>
+        <input class="form-input" type="text" id="company" name="company" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="message">Message</label>
+        <textarea class="form-textarea" id="message" name="message" required></textarea>
+      </div>
+
+      <!-- Honeypot field: hidden from real users via CSS, bots tend to fill every field they find -->
+      <div class="form-row" style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+        <label for="website">Website</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button class="form-submit" type="submit" id="submitBtn">Send message</button>
+      <p class="form-status" id="formStatus"></p>
+    </form>
+
+    <p class="form-divider">— or reach out directly —</p>
+
     <div class="contact-links">
       <a href="mailto:ulemus@cougarnet.uh.edu" class="btn">Email me</a>
       <a href="https://www.linkedin.com/in/ulises-lemus-b39030216/" target="_blank" class="btn">LinkedIn</a>
@@ -485,6 +611,63 @@
       });
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
+
+    const leadForm = document.getElementById('leadForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formStatus = document.getElementById('formStatus');
+
+    const WEBHOOK_URL = 'https://uliseslemus.app.n8n.cloud/webhook/lead-response';
+
+    leadForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      // Honeypot check: if this hidden field has anything in it, it's almost certainly a bot.
+      // Silently pretend success and stop — never hits the webhook, never wastes an execution.
+      const honeypot = document.getElementById('website').value;
+      if (honeypot) {
+        formStatus.textContent = "Thanks — you'll hear back shortly.";
+        formStatus.className = 'form-status success';
+        leadForm.reset();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending';
+      formStatus.className = 'form-status';
+      formStatus.textContent = 'Reviewing your message — this takes a few seconds...';
+      formStatus.style.display = 'block';
+
+      const payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        company: document.getElementById('company').value,
+        message: document.getElementById('message').value
+      };
+
+      try {
+        // Webhook is set to "Respond: Using 'Respond to Webhook' Node," so this waits
+        // for the AI qualification + parsing to complete before resolving.
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          formStatus.textContent = "Thanks — you'll hear back shortly.";
+          formStatus.className = 'form-status success';
+          leadForm.reset();
+        } else {
+          throw new Error('Non-OK response');
+        }
+      } catch (err) {
+        formStatus.textContent = 'Something went wrong. Please try emailing me directly.';
+        formStatus.className = 'form-status error';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+      }
+    });
   </script>
 
 </body>
