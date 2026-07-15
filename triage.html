@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +23,6 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--ink); font-family: 'EB Garamond', serif; font-size: 18px; line-height: 1.6; }
 
-    /* NAV */
     nav {
       display: flex;
       align-items: center;
@@ -51,7 +49,6 @@
     }
     .nav-links a:hover { color: var(--ink); }
 
-    /* HERO BANNER */
     .case-banner {
       width: 100%;
       height: 320px;
@@ -89,11 +86,25 @@
       position: relative;
     }
 
-    /* CONTENT */
+    .dashboard-preview {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 48px;
+      transform: translateY(-40px);
+    }
+
+    .dashboard-preview img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
     .case-content {
       max-width: 720px;
       margin: 0 auto;
-      padding: 64px 48px 100px;
+      padding: 0 48px 100px;
     }
 
     .case-meta {
@@ -154,7 +165,6 @@
 
     .case-section strong { color: var(--ink); font-weight: 500; }
 
-    /* ARCHITECTURE STEPS */
     .arch-steps {
       counter-reset: step;
       margin-top: 24px;
@@ -188,7 +198,6 @@
       line-height: 1.7;
     }
 
-    /* QUOTE / PROOF BLOCK */
     .proof-block {
       background: var(--white);
       border: 1px solid var(--border);
@@ -214,7 +223,6 @@
       font-style: italic;
     }
 
-    /* TAGS */
     .tag-row {
       display: flex;
       flex-wrap: wrap;
@@ -233,7 +241,6 @@
       padding: 4px 12px;
     }
 
-    /* CTA */
     .case-cta {
       display: flex;
       gap: 12px;
@@ -266,7 +273,6 @@
 
     .btn-primary:hover { background: var(--teal-dark); border-color: var(--teal-dark); color: var(--white); }
 
-    /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
       padding: 24px 48px;
@@ -285,7 +291,8 @@
     @media (max-width: 768px) {
       nav { padding: 16px 24px; }
       .nav-links { display: none; }
-      .case-content { padding: 48px 24px 60px; }
+      .dashboard-preview { padding: 0 24px; }
+      .case-content { padding: 0 24px 60px; }
       footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
     }
   </style>
@@ -304,6 +311,10 @@
   <div class="case-banner">
     <span class="case-banner-eyebrow">Case Study · AI Automation · n8n</span>
     <h1 class="case-banner-title">Triage</h1>
+  </div>
+
+  <div class="dashboard-preview">
+    <img src="Triage_Workflow.png" alt="Triage n8n workflow — Webhook, AI qualification, CRM and email routing" />
   </div>
 
   <div class="case-content">
