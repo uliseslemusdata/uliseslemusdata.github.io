@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triage — AI Lead Qualification — Ulises Lemus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F5F4F2;
+      --white: #FFFFFF;
+      --ink: #111111;
+      --ink-mid: #444444;
+      --ink-dim: #888888;
+      --border: #E0DFDC;
+      --tag-bg: #EFEFED;
+      --teal: #0D9E85;
+      --teal-dark: #085041;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'EB Garamond', serif; font-size: 18px; line-height: 1.6; }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .case-banner {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(135deg, #1A2A3A 0%, #1A4A72 45%, #0D9E85 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 65% 50%, rgba(13,158,133,0.25) 0%, transparent 65%);
+    }
+
+    .case-banner-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .case-banner-title {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 500;
+      color: #FFFFFF;
+      position: relative;
+    }
+
+    .dashboard-preview {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 48px;
+      transform: translateY(-40px);
+    }
+
+    .dashboard-preview img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    .case-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 48px 100px;
+    }
+
+    .case-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+    }
+    .meta-val {
+      font-family: 'EB Garamond', serif;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .case-section { margin-bottom: 48px; }
+
+    .case-section h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .case-section p {
+      font-size: 18px;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .case-section p:last-child { margin-bottom: 0; }
+
+    .case-section ul {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    .case-section li {
+      font-size: 18px;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .case-section li:last-child { margin-bottom: 0; }
+
+    .case-section strong { color: var(--ink); font-weight: 500; }
+
+    .arch-steps {
+      counter-reset: step;
+      margin-top: 24px;
+    }
+
+    .arch-step {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .arch-step:last-child { border-bottom: none; }
+
+    .arch-step-num {
+      counter-increment: step;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--teal-dark);
+      flex-shrink: 0;
+      width: 24px;
+    }
+
+    .arch-step-num::before {
+      content: counter(step);
+    }
+
+    .arch-step-text {
+      font-size: 17px;
+      color: var(--ink-mid);
+      line-height: 1.7;
+    }
+
+    .proof-block {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--teal);
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    .proof-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .proof-text {
+      font-size: 16px;
+      color: var(--ink-mid);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 4px 12px;
+    }
+
+    .case-cta {
+      display: flex;
+      gap: 12px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      color: var(--ink);
+      background: transparent;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+    .btn-primary {
+      background: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+
+    .btn-primary:hover { background: var(--teal-dark); border-color: var(--teal-dark); color: var(--white); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-dim);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .dashboard-preview { padding: 0 24px; }
+      .case-content { padding: 0 24px 60px; }
+      footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-name">Ulises Lemus</a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="case-banner">
+    <span class="case-banner-eyebrow">Case Study · AI Automation · n8n</span>
+    <h1 class="case-banner-title">Triage</h1>
+  </div>
+
+  <div class="dashboard-preview">
+    <img src="Triage_Workflow.png" alt="Triage n8n workflow — Webhook, AI qualification, CRM and email routing" />
+  </div>
+
+  <div class="case-content">
+
+    <div class="case-meta">
+      <div class="meta-item">
+        <span class="meta-label">Tools</span>
+        <span class="meta-val">n8n, Claude API, HubSpot</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Type</span>
+        <span class="meta-val">AI Lead Qualification System</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Status</span>
+        <span class="meta-val">Live on this site</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Year</span>
+        <span class="meta-val">2026</span>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>The problem</h2>
+      <p>Small businesses lose leads to slow response times. Research from Harvard Business Review and MIT, along with more recent industry studies, consistently shows the average business takes over 40 hours to respond to a new inquiry, while leads contacted within 5 minutes are dramatically more likely to convert than those contacted even 30 minutes later. Business owners are busy running their operations, not watching an inbox.</p>
+    </div>
+
+    <div class="case-section">
+      <h2>What I built</h2>
+      <p>Triage is a fully custom lead qualification system that runs live on this site's contact form. When someone submits a message, it's automatically analyzed by AI for intent, urgency, and fit, classified, and routed accordingly, all within seconds.</p>
+      <div class="tag-row">
+        <span class="tag">AI Qualification</span>
+        <span class="tag">Webhook Architecture</span>
+        <span class="tag">CRM Integration</span>
+        <span class="tag">Spam Detection</span>
+        <span class="tag">n8n Automation</span>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>Architecture</h2>
+      <div class="arch-steps">
+        <div class="arch-step">
+          <span class="arch-step-num"></span>
+          <span class="arch-step-text">Custom HTML form, built and styled to match this site, embedded directly in the contact section</span>
+        </div>
+        <div class="arch-step">
+          <span class="arch-step-num"></span>
+          <span class="arch-step-text">Form submits to an n8n Webhook, not a third-party hosted form</span>
+        </div>
+        <div class="arch-step">
+          <span class="arch-step-num"></span>
+          <span class="arch-step-text">Claude analyzes the lead for intent, urgency, and specificity, and classifies it as a sales lead, spam, or other</span>
+        </div>
+        <div class="arch-step">
+          <span class="arch-step-num"></span>
+          <span class="arch-step-text">A parsing layer structures the AI's output</span>
+        </div>
+        <div class="arch-step">
+          <span class="arch-step-num"></span>
+          <span class="arch-step-text">Every lead is logged to a HubSpot CRM contact record and a backup spreadsheet, regardless of classification, so nothing is ever lost</span>
+        </div>
+        <div class="arch-step">
+          <span class="arch-step-num"></span>
+          <span class="arch-step-text">Qualified, high priority leads trigger an instant email notification, so the business owner only gets interrupted when it matters</span>
+        </div>
+        <div class="arch-step">
+          <span class="arch-step-num"></span>
+          <span class="arch-step-text">The lead receives a personalized, human sounding acknowledgment, drafted by AI based on their specific message, not a canned template</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>A real world proof point</h2>
+      <p>Spam submissions like this aren't rare. In my own work in property management, foreign language promotional spam and phishing attempts show up regularly on lead capture forms across the industry, often with no filtering catching them before they land as "new leads."</p>
+      <p>One recent example: a submission containing foreign language promotional content and a clearly fabricated name had been accepted as a legitimate lead on a widely used property management platform's contact form.</p>
+      <p>I ran the same submission through Triage. It was correctly flagged as spam in seconds, with a clear, specific reason.</p>
+      <div class="proof-block">
+        <div class="proof-label">Triage's classification</div>
+        <div class="proof-text">"Mixed language content, suspicious email domain, no company name, incoherent message mixing an unrelated tour request with foreign promotional text."</div>
+      </div>
+    </div>
+
+    <div class="case-section">
+      <h2>Tested across a range of spam patterns, not just one</h2>
+      <p>Catching a single spam example is easy to dismiss as luck. To confirm Triage generalizes, I ran it against several distinct spam patterns, each with a different manipulation strategy.</p>
+      <ul>
+        <li><strong>Foreign language promotional spam</strong> (the case above): flagged for mixed language content, a suspicious domain, and an incoherent message</li>
+        <li><strong>Advance fee / prize scam</strong>: a fake $500,000 prize notification requesting bank details, flagged as a classic advance fee scam with fake prize notification, urgency tactic, and request for banking details</li>
+        <li><strong>Low effort generic spam</strong>: an unsolicited "get rich quick" pitch from a temporary email address, flagged as unsolicited promotional messaging with no legitimate business inquiry and a temporary email address typical of spam</li>
+      </ul>
+      <p>In every case, Triage didn't just flag the message, it explained why, citing the specific signal that gave it away. That's meaningfully different from keyword based spam filters: it's reasoning about intent, not just pattern matching against a blocklist.</p>
+      <p>This same qualification logic was also tested across legitimate lead types, including high urgency prospects, low intent browsers, partnership inquiries, and multilingual messages, all classified correctly.</p>
+    </div>
+
+    <div class="case-section">
+      <h2>Engineering details worth noting</h2>
+      <ul>
+        <li><strong>Honeypot spam protection</strong>: a hidden form field invisible to real users but often filled by bots, silently filtered before it ever reaches the AI or wastes an execution</li>
+        <li><strong>Deliberate response timing</strong>: the response to the website visitor waits until qualification is complete, so the confirmation they see is meaningful, not instant and empty</li>
+        <li><strong>Redundant logging</strong>: even with a full CRM integration, every lead is also backed up to a spreadsheet, so no data is ever dependent on a single system</li>
+        <li><strong>Tuned tone</strong>: the AI's draft responses were deliberately refined through iteration, moving from generic, marketing sounding replies to responses that read like a real person casually responding to an email</li>
+      </ul>
+    </div>
+
+    <div class="case-section">
+      <h2>Try it live</h2>
+      <p>This exact system powers the contact form on this site. Scroll down, send a message, and you'll experience it yourself.</p>
+    </div>
+
+    <div class="case-cta">
+      <a href="index.html#contact" class="btn btn-primary">Try it live →</a>
+      <a href="index.html" class="btn">Back to portfolio</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="footer-text">Ulises Lemus · 2026</span>
+    <span class="footer-text">uliseslemus.com</span>
+  </footer>
+
+</body>
+</html>
