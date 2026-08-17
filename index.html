@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -525,12 +524,11 @@
   <h3 class="project-card-title">Beyond the Box Office</h3>
   <p class="project-card-desc">25 years of Pixar data — box office performance, ROI trends, and the relationship between critical acclaim and commercial success.</p>
 </a>
-    <div class="project-card">
-      <p class="project-card-category">Power BI · SQL</p>
-      <h3 class="project-card-title">Houston Multifamily Pipeline</h3>
-      <p class="project-card-desc">End to end SQL to Power BI pipeline built on a synthetic 1,260 unit Houston portfolio. Leasing velocity, renewal rates, and market comp analysis.</p>
-      <span class="coming-soon-badge">Coming soon</span>
-    </div>
+    <a href="integration-sync.html" class="project-card">
+  <p class="project-card-category">AI Automation · n8n</p>
+  <h3 class="project-card-title">Integration Sync Error Triage</h3>
+  <p class="project-card-desc">Catches HRIS integration sync errors the moment they happen, classifies severity with AI, and routes to the right response, client email, team alert, or escalation, while logging every issue to a running spreadsheet.</p>
+</a>
   </div>
 </div>
   <div class="about reveal" id="about">
@@ -538,152 +536,4 @@
       <h2>Built from scratch,<br>on purpose.</h2>
       <div class="about-text">
         <p>I build dashboards, write SQL, and translate messy data into decisions that actually move businesses forward. MBA in Business Analytics from UH Bauer. Bilingual in English and Spanish.</p>
-        <p>I founded Insignar, a bilingual data consulting firm based in Houston, because small and mid-size businesses deserve the same data clarity that enterprise companies take for granted.</p>
-      </div>
-    </div>
-    <div>
-      <div class="detail-row">
-        <span class="detail-label">Degree</span>
-        <span class="detail-val">MBA · Business Analytics</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">School</span>
-        <span class="detail-val">UH Bauer · 3.6 GPA</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Location</span>
-        <span class="detail-val">Houston, TX</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Languages</span>
-        <span class="detail-val">English · Spanish</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Venture</span>
-        <span class="detail-val">Founder · Insignar</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Stack</span>
-        <span class="detail-val">Power BI · SQL · Python</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="contact reveal" id="contact">
-    <h2>Let's work together.</h2>
-    <p class="contact-desc">Open to data analyst and BI roles in Houston. Also available for consulting through Insignar. This form runs through Triage, an AI powered lead qualification system I built myself.</p>
-
-    <form class="contact-form" id="leadForm">
-      <div class="form-row">
-        <label class="form-label" for="name">Name</label>
-        <input class="form-input" type="text" id="name" name="name" required />
-      </div>
-      <div class="form-row">
-        <label class="form-label" for="email">Email</label>
-        <input class="form-input" type="email" id="email" name="email" required />
-      </div>
-      <div class="form-row">
-        <label class="form-label" for="company">Company</label>
-        <input class="form-input" type="text" id="company" name="company" />
-      </div>
-      <div class="form-row">
-        <label class="form-label" for="message">Message</label>
-        <textarea class="form-textarea" id="message" name="message" required></textarea>
-      </div>
-
-      <!-- Honeypot field: hidden from real users via CSS, bots tend to fill every field they find -->
-      <div class="form-row" style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
-        <label for="website">Website</label>
-        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
-      </div>
-
-      <button class="form-submit" type="submit" id="submitBtn">Send message</button>
-      <p class="form-status" id="formStatus"></p>
-    </form>
-
-    <p class="form-divider">— or reach out directly —</p>
-
-    <div class="contact-links">
-      <a href="mailto:ulemus@cougarnet.uh.edu" class="btn">Email me</a>
-      <a href="https://www.linkedin.com/in/ulises-lemus-b39030216/" target="_blank" class="btn">LinkedIn</a>
-      <a href="https://github.com/uliseslemusdata" target="_blank" class="btn">GitHub</a>
-    </div>
-  </div>
-
-  <footer>
-    <span class="footer-text">Ulises Lemus · 2026</span>
-    <span class="footer-text">Founder · Insignar · Houston, TX</span>
-  </footer>
-
-  <script>
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
-
-    const leadForm = document.getElementById('leadForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const formStatus = document.getElementById('formStatus');
-
-    const WEBHOOK_URL = 'https://hooks.uliseslemus.com';
-
-    leadForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      // Honeypot check: if this hidden field has anything in it, it's almost certainly a bot.
-      // Silently pretend success and stop — never hits the webhook, never wastes an execution.
-      const honeypot = document.getElementById('website').value;
-      if (honeypot) {
-        formStatus.textContent = "Thanks — you'll hear back shortly.";
-        formStatus.className = 'form-status success';
-        leadForm.reset();
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending';
-      formStatus.className = 'form-status';
-      formStatus.textContent = 'Reviewing your message — this takes a few seconds...';
-      formStatus.style.display = 'block';
-
-      const payload = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        company: document.getElementById('company').value,
-        message: document.getElementById('message').value
-      };
-
-      try {
-        // Webhook is set to "Respond: Using 'Respond to Webhook' Node," so this waits
-        // for the AI qualification + parsing to complete before resolving.
-        const response = await fetch(WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-          formStatus.textContent = "Thanks — you'll hear back shortly.";
-          formStatus.className = 'form-status success';
-          leadForm.reset();
-        } else {
-          throw new Error('Non-OK response');
-        }
-      } catch (err) {
-        formStatus.textContent = 'Something went wrong. Please try emailing me directly.';
-        formStatus.className = 'form-status error';
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send message';
-      }
-    });
-  </script>
-
-</body>
-</html>
+        <p>I founded Insignar, a bilingual data consulting firm based in Houston, because small and mid-size businesses deserve the same data clarity that enterprise companies take
