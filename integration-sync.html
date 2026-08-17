@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Triage — AI Lead Qualification — Ulises Lemus</title>
+  <title>Integration Sync Error Triage — Ulises Lemus</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <style>
@@ -310,11 +310,11 @@
 
   <div class="case-banner">
     <span class="case-banner-eyebrow">Case Study · AI Automation · n8n</span>
-    <h1 class="case-banner-title">Triage</h1>
+    <h1 class="case-banner-title">Integration Sync Error Triage</h1>
   </div>
 
   <div class="dashboard-preview">
-    <img src="Triage_Workflow.png" alt="Triage n8n workflow — Webhook, AI qualification, CRM and email routing" />
+    <img src="IntegrationSync_Workflow.png" alt="Integration Sync Error Triage n8n workflow — Webhook, BambooHR, Claude classification, Slack and Gmail routing, Google Sheets logging" />
   </div>
 
   <div class="case-content">
@@ -322,15 +322,15 @@
     <div class="case-meta">
       <div class="meta-item">
         <span class="meta-label">Tools</span>
-        <span class="meta-val">n8n, Claude API, HubSpot</span>
+        <span class="meta-val">n8n, Claude API, BambooHR, Slack, Gmail, Google Sheets</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">Type</span>
-        <span class="meta-val">AI Lead Qualification System</span>
+        <span class="meta-val">Integration Error Triage and Documentation Assistant</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">Status</span>
-        <span class="meta-val">Live on this site</span>
+        <span class="meta-val">Built and tested</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">Year</span>
@@ -340,17 +340,17 @@
 
     <div class="case-section">
       <h2>The problem</h2>
-      <p>Small businesses lose leads to slow response times. Research from Harvard Business Review and MIT, along with more recent industry studies, consistently shows the average business takes over 40 hours to respond to a new inquiry, while leads contacted within 5 minutes are dramatically more likely to convert than those contacted even 30 minutes later. Business owners are busy running their operations, not watching an inbox.</p>
+      <p>TAMs at benefits platforms have to manually notice when a client's HRIS or payroll sync breaks, figure out what's actually wrong, and then decide if they can explain it to the client directly or if it needs engineering to fix. Because the platform is essentially a benefits card, a broken sync doesn't just mean a technical hiccup, it can mean the wrong benefits reach the wrong employee, or block someone's benefits from activating at all.</p>
     </div>
 
     <div class="case-section">
       <h2>What I built</h2>
-      <p>Triage is a fully custom lead qualification system that runs live on this site's contact form. When someone submits a message, it's automatically analyzed by AI for intent, urgency, and fit, classified, and routed accordingly, all within seconds.</p>
+      <p>An n8n workflow that catches an integration sync error the moment it happens, pulls the real employee record from the client's HRIS, and hands both to Claude for triage. Claude classifies how serious the issue is and drafts two things at once: a technical summary for the internal team and a plain language explanation for the client, no manual re-explaining the same problem twice. Based on severity, it routes automatically, low severity issues get a client email, high severity ones alert the team and get logged as an escalation. Every error, regardless of severity, is appended to a running spreadsheet, so there's an actual record of which clients keep having recurring sync issues.</p>
       <div class="tag-row">
-        <span class="tag">AI Qualification</span>
+        <span class="tag">HRIS Integration</span>
+        <span class="tag">AI Classification</span>
         <span class="tag">Webhook Architecture</span>
-        <span class="tag">CRM Integration</span>
-        <span class="tag">Spam Detection</span>
+        <span class="tag">Severity Routing</span>
         <span class="tag">n8n Automation</span>
       </div>
     </div>
@@ -360,76 +360,66 @@
       <div class="arch-steps">
         <div class="arch-step">
           <span class="arch-step-num"></span>
-          <span class="arch-step-text">Custom HTML form, built and styled to match this site, embedded directly in the contact section</span>
+          <span class="arch-step-text">Webhook receives the sync error the moment it fires, no polling</span>
         </div>
         <div class="arch-step">
           <span class="arch-step-num"></span>
-          <span class="arch-step-text">Form submits to an n8n Webhook, not a third-party hosted form</span>
+          <span class="arch-step-text">A parsing layer sanitizes the payload and extracts the client, integration type, and raw error message</span>
         </div>
         <div class="arch-step">
           <span class="arch-step-num"></span>
-          <span class="arch-step-text">Claude analyzes the lead for intent, urgency, and specificity, and classifies it as a sales lead, spam, or other</span>
+          <span class="arch-step-text">The workflow pulls the actual employee record from the client's HRIS (built live against BambooHR, one of the platform's real integration partners) to give Claude real context, not just a bare error string</span>
         </div>
         <div class="arch-step">
           <span class="arch-step-num"></span>
-          <span class="arch-step-text">A parsing layer structures the AI's output</span>
+          <span class="arch-step-text">Claude classifies severity and drafts two outputs in one call: an internal technical summary and a client facing explanation</span>
         </div>
         <div class="arch-step">
           <span class="arch-step-num"></span>
-          <span class="arch-step-text">Every lead is logged to a HubSpot CRM contact record and a backup spreadsheet, regardless of classification, so nothing is ever lost</span>
+          <span class="arch-step-text">A parsing layer structures Claude's output into clean fields for everything downstream</span>
         </div>
         <div class="arch-step">
           <span class="arch-step-num"></span>
-          <span class="arch-step-text">Qualified, high priority leads trigger an instant email notification, so the business owner only gets interrupted when it matters</span>
+          <span class="arch-step-text">Low severity issues automatically email the client with a plain language explanation</span>
         </div>
         <div class="arch-step">
           <span class="arch-step-num"></span>
-          <span class="arch-step-text">The lead receives a personalized, human sounding acknowledgment, drafted by AI based on their specific message, not a canned template</span>
+          <span class="arch-step-text">High severity issues post to a team Slack channel with full technical context and open an escalation record for follow up</span>
+        </div>
+        <div class="arch-step">
+          <span class="arch-step-num"></span>
+          <span class="arch-step-text">Every error, low or high severity, is logged to a running spreadsheet, giving the team a live view of which clients have recurring integration issues</span>
         </div>
       </div>
     </div>
 
     <div class="case-section">
       <h2>A real world proof point</h2>
-      <p>Spam submissions like this aren't rare. In my own work in property management, foreign language promotional spam and phishing attempts show up regularly on lead capture forms across the industry, often with no filtering catching them before they land as "new leads."</p>
-      <p>One recent example: a submission containing foreign language promotional content and a clearly fabricated name had been accepted as a legitimate lead on a widely used property management platform's contact form.</p>
-      <p>I ran the same submission through Triage. It was correctly flagged as spam in seconds, with a clear, specific reason.</p>
+      <p>To test the workflow, I fed it a real integration failure pattern: a client's Workday sync failing because a required hire_date field was missing from the employee record on file. This isn't a cosmetic error, that field is often what determines benefits eligibility timing, so a missing value blocks the sync entirely.</p>
       <div class="proof-block">
-        <div class="proof-label">Triage's classification</div>
-        <div class="proof-text">"Mixed language content, suspicious email domain, no company name, incoherent message mixing an unrelated tour request with foreign promotional text."</div>
+        <div class="proof-label">Claude's classification</div>
+        <div class="proof-text">"Workday integration failing on hire_date field mapping. HRIS record does not contain hire_date field. Workday requires hire_date as a mandatory field for employee sync. Missing data in source system preventing integration from completing."</div>
       </div>
-    </div>
-
-    <div class="case-section">
-      <h2>Tested across a range of spam patterns, not just one</h2>
-      <p>Catching a single spam example is easy to dismiss as luck. To confirm Triage generalizes, I ran it against several distinct spam patterns, each with a different manipulation strategy.</p>
-      <ul>
-        <li><strong>Foreign language promotional spam</strong> (the case above): flagged for mixed language content, a suspicious domain, and an incoherent message</li>
-        <li><strong>Advance fee / prize scam</strong>: a fake $500,000 prize notification requesting bank details, flagged as a classic advance fee scam with fake prize notification, urgency tactic, and request for banking details</li>
-        <li><strong>Low effort generic spam</strong>: an unsolicited "get rich quick" pitch from a temporary email address, flagged as unsolicited promotional messaging with no legitimate business inquiry and a temporary email address typical of spam</li>
-      </ul>
-      <p>In every case, Triage didn't just flag the message, it explained why, citing the specific signal that gave it away. That's meaningfully different from keyword based spam filters: it's reasoning about intent, not just pattern matching against a blocklist.</p>
-      <p>This same qualification logic was also tested across legitimate lead types, including high urgency prospects, low intent browsers, partnership inquiries, and multilingual messages, all classified correctly.</p>
+      <p>The workflow correctly classified it as high severity, routed it to the Slack escalation path, and drafted a client facing explanation in plain language, no jargon, just what happened and what's needed to fix it.</p>
     </div>
 
     <div class="case-section">
       <h2>Engineering details worth noting</h2>
       <ul>
-        <li><strong>Honeypot spam protection</strong>: a hidden form field invisible to real users but often filled by bots, silently filtered before it ever reaches the AI or wastes an execution</li>
-        <li><strong>Deliberate response timing</strong>: the response to the website visitor waits until qualification is complete, so the confirmation they see is meaningful, not instant and empty</li>
-        <li><strong>Redundant logging</strong>: even with a full CRM integration, every lead is also backed up to a spreadsheet, so no data is ever dependent on a single system</li>
-        <li><strong>Tuned tone</strong>: the AI's draft responses were deliberately refined through iteration, moving from generic, marketing sounding replies to responses that read like a real person casually responding to an email</li>
+        <li><strong>Integration agnostic by design</strong>: the workflow doesn't hardcode logic for one specific HRIS. Claude reads whatever integration type and error come through and reasons about it directly, so the same triage logic applies whether a client is on Workday, ADP, Rippling, or another system. The only piece that changes per client is which system the workflow pulls the employee record from.</li>
+        <li><strong>Explicit node referencing over implicit data flow</strong>: rather than relying on default data references to always carry the right fields forward, later nodes explicitly reference earlier ones by name, this caught a real bug during development where a downstream node was silently reading from the wrong node's output.</li>
+        <li><strong>Defensive parsing after every AI call</strong>: Claude's output is parsed with a try/catch fallback, if the model output can't be parsed for any reason, the workflow defaults to high severity for manual review rather than failing silently.</li>
+        <li><strong>Dual drafting in a single model call</strong>: instead of two separate AI calls for the internal summary and the client email, both are drafted together in one structured JSON response, keeping the workflow leaner and the two explanations consistent with each other.</li>
       </ul>
     </div>
 
     <div class="case-section">
-      <h2>Try it live</h2>
-      <p>This exact system powers the contact form on this site. Scroll down, send a message, and you'll experience it yourself.</p>
+      <h2>Scope note</h2>
+      <p>The escalation ticket step is modeled against a real support platform's conversation structure, correct endpoint, correct method, correct field shape, but isn't wired to a live account for this demo. Everything else in the pipeline runs live end to end: the webhook trigger, the HRIS pull, Claude's classification, the Slack alert, the client email, and the spreadsheet log.</p>
     </div>
 
     <div class="case-cta">
-      <a href="index.html#contact" class="btn btn-primary">Try it live →</a>
-      <a href="index.html" class="btn">Back to portfolio</a>
+      <a href="index.html" class="btn btn-primary">Back to portfolio →</a>
     </div>
 
   </div>
