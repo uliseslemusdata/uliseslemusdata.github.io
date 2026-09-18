@@ -210,121 +210,17 @@
       line-height: 1.5;
     }
 
-    .flagship {
-      padding: 20px 48px 80px;
-    }
-
-    .flagship-eyebrow {
+    .coming-soon-badge {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .flagship h2 {
-      font-family: 'EB Garamond', serif;
-      font-size: 32px;
-      font-weight: 400;
-      color: var(--ink);
-      margin-bottom: 32px;
-      line-height: 1.1;
-    }
-
-    .flagship-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .flagship-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--accent);
-      border-radius: 6px;
-      padding: 24px 26px;
-      text-decoration: none;
-      display: block;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .flagship-card:hover {
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-
-    .flagship-card-category {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
+      font-size: 9px;
       letter-spacing: 0.12em;
-      color: var(--ink-dim);
       text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .flagship-card-title {
-      font-family: 'EB Garamond', serif;
-      font-size: 22px;
-      font-weight: 400;
-      color: var(--ink);
-      margin-bottom: 8px;
-      line-height: 1.2;
-    }
-
-    .flagship-card-desc {
-      font-size: 15px;
       color: var(--ink-dim);
-      line-height: 1.6;
-    }
-
-    .projects {
-      padding: 20px 48px 80px;
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .project-card {
-      background: var(--white);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 24px 28px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      text-decoration: none;
-      display: block;
-    }
-
-    .project-card:hover {
-      border-color: #BBBAB7;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-
-    .project-card-category {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      color: var(--ink-dim);
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .project-card-title {
-      font-family: 'EB Garamond', serif;
-      font-size: 22px;
-      font-weight: 400;
-      color: var(--ink);
-      margin-bottom: 8px;
-      line-height: 1.2;
-    }
-
-    .project-card-desc {
-      font-size: 15px;
-      color: var(--ink-dim);
-      line-height: 1.6;
+      border-radius: 2px;
+      padding: 2px 8px;
+      display: inline-block;
+      margin-top: 12px;
     }
 
     .about {
@@ -514,10 +410,9 @@
     @media (max-width: 768px) {
       nav { padding: 16px 24px; }
       .nav-links { display: none; }
-      .hero, .skills, .flagship, .projects, .about, .contact { padding-left: 24px; padding-right: 24px; }
-      .projects-grid, .about { grid-template-columns: 1fr; gap: 16px; }
+      .hero, .skills, .about, .contact { padding-left: 24px; padding-right: 24px; }
+      .about { grid-template-columns: 1fr; gap: 16px; }
       .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      .flagship-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 8px; padding: 20px 24px; }
     }
 
@@ -552,7 +447,7 @@
   <div class="skills" id="skills">
     <p class="skills-eyebrow">What I Can Do</p>
     <h2>What I can actually do</h2>
-    <p class="skills-subtitle">A few core skills, each backed by a couple of quick, real-data projects — then a few bigger ones that put them all to work together.</p>
+    <p class="skills-subtitle">A few core skills, each backed by real projects — not exercises, things I've actually built and shipped.</p>
 
     <div class="skills-grid">
 
@@ -570,21 +465,21 @@
 
       <div class="skill-column">
         <p class="skill-column-label">Power BI</p>
-        <a href="#" class="skill-project">
-          <p class="skill-project-title">Single-Page Dashboard</p>
-          <p class="skill-project-desc">Power Query + 1 DAX measure</p>
+        <a href="pulse.html" class="skill-project">
+          <p class="skill-project-title">Pulse — CSM Dashboard</p>
+          <p class="skill-project-desc">Galaxy schema, 13 DAX measures</p>
         </a>
-        <a href="#" class="skill-project">
-          <p class="skill-project-title">Cleaning Template Demo</p>
-          <p class="skill-project-desc">Reusable Power Query steps</p>
+        <a href="pixar.html" class="skill-project">
+          <p class="skill-project-title">Beyond the Box Office</p>
+          <p class="skill-project-desc">25 years of Pixar data</p>
         </a>
       </div>
 
       <div class="skill-column">
         <p class="skill-column-label">Automation</p>
-        <a href="#" class="skill-project">
-          <p class="skill-project-title">Mini Webhook Flow</p>
-          <p class="skill-project-desc">n8n: clean &amp; log to Sheets</p>
+        <a href="triage.html" class="skill-project">
+          <p class="skill-project-title">Triage</p>
+          <p class="skill-project-desc">AI lead qualification bot</p>
         </a>
         <a href="integration-sync.html" class="skill-project">
           <p class="skill-project-title">Sync Error Triage</p>
@@ -592,43 +487,6 @@
         </a>
       </div>
 
-    </div>
-  </div>
-
-  <div class="flagship">
-    <p class="flagship-eyebrow">Flagship Work</p>
-    <h2>Bigger projects, multiple skills combined</h2>
-    <div class="flagship-grid">
-      <a href="pulse.html" class="flagship-card">
-        <p class="flagship-card-category">SQL · Power BI · DAX</p>
-        <p class="flagship-card-title">Pulse — CSM Dashboard</p>
-        <p class="flagship-card-desc">Galaxy schema, 13 DAX measures, four report pages.</p>
-      </a>
-      <a href="triage.html" class="flagship-card">
-        <p class="flagship-card-category">Automation · Python · AI</p>
-        <p class="flagship-card-title">Lead Qualification Bot</p>
-        <p class="flagship-card-desc">Live triage workflow, deployed on this site's own contact form.</p>
-      </a>
-    </div>
-  </div>
-
-  <div class="projects" id="projects">
-    <div class="projects-grid">
-      <a href="triage.html" class="project-card">
-        <p class="project-card-category">AI Automation · n8n</p>
-        <h3 class="project-card-title">Triage</h3>
-        <p class="project-card-desc">AI powered lead qualification system, live on this site's contact form. Classifies intent, filters spam, and routes qualified leads to a CRM and instant notification, all in seconds.</p>
-      </a>
-      <a href="pixar.html" class="project-card">
-        <p class="project-card-category">Power BI · Entertainment</p>
-        <h3 class="project-card-title">Beyond the Box Office</h3>
-        <p class="project-card-desc">25 years of Pixar data — box office performance, ROI trends, and the relationship between critical acclaim and commercial success.</p>
-      </a>
-      <a href="integration-sync.html" class="project-card">
-        <p class="project-card-category">AI Automation · n8n</p>
-        <h3 class="project-card-title">Integration Sync Error Triage</h3>
-        <p class="project-card-desc">Catches HRIS integration sync errors the moment they happen, classifies severity with AI, and routes to the right response, client email, team alert, or escalation, while logging every issue to a running spreadsheet.</p>
-      </a>
     </div>
   </div>
 
