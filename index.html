@@ -475,6 +475,179 @@
       .projects-grid, .about { grid-template-columns: 1fr; gap: 16px; }
       footer { flex-direction: column; gap: 8px; padding: 20px 24px; }
     }
+/* ===== SKILLS SECTION ===== */
+.skills {
+  padding: 80px 48px;
+  border-top: 1px solid var(--border);
+}
+
+.skills-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.skills h2 {
+  font-family: 'EB Garamond', serif;
+  font-size: 40px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.skills-subtitle {
+  font-size: 17px;
+  color: var(--ink-mid);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: 48px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.skill-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skill-column-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 10px;
+  margin-bottom: 4px;
+}
+
+.skill-project {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 18px;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.skill-project:hover {
+  border-color: #BBBAB7;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.skill-project-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.skill-project-desc {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+
+/* ===== FLAGSHIP PROJECTS ===== */
+.flagship {
+  padding: 20px 48px 80px;
+}
+
+.flagship-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.flagship h2 {
+  font-family: 'EB Garamond', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 32px;
+  line-height: 1.1;
+}
+
+.flagship-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.flagship-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--ink);
+  border-radius: 6px;
+  padding: 24px 26px;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.flagship-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.flagship-card-category {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.flagship-card-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.flagship-card-desc {
+  font-size: 15px;
+  color: var(--ink-dim);
+  line-height: 1.6;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .skills-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .skills, .flagship { padding-left: 24px; padding-right: 24px; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .flagship-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: 1fr; }
+}
+    
   </style>
 </head>
 <body>
@@ -531,6 +704,92 @@
 </a>
   </div>
 </div>
+<div class="skills" id="skills">
+  <p class="skills-eyebrow">What I Can Do</p>
+  <h2>Skills, proven in practice</h2>
+  <p class="skills-subtitle">Five core skills, each backed by a couple of quick, real-data projects — then a few bigger ones that put them all to work together.</p>
+
+  <div class="skills-grid">
+
+    <div class="skill-column">
+      <p class="skill-column-label">SQL</p>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Window Functions &amp; CTEs</p>
+        <p class="skill-project-desc">Ranking layoffs by industry</p>
+      </a>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Dedup &amp; Data Quality</p>
+        <p class="skill-project-desc">Finding true duplicates</p>
+      </a>
+    </div>
+
+    <div class="skill-column">
+      <p class="skill-column-label">Python</p>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Pandas Cleaning Script</p>
+        <p class="skill-project-desc">Nulls, dupes, dtypes</p>
+      </a>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Quick EDA + Chart</p>
+        <p class="skill-project-desc">Groupby &amp; matplotlib</p>
+      </a>
+    </div>
+
+    <div class="skill-column">
+      <p class="skill-column-label">Excel</p>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Layoffs Cleaning + Pivots</p>
+        <p class="skill-project-desc">Split fields, 3 pivot tables</p>
+      </a>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Lookup &amp; Merge Demo</p>
+        <p class="skill-project-desc">XLOOKUP across tables</p>
+      </a>
+    </div>
+
+    <div class="skill-column">
+      <p class="skill-column-label">Power BI</p>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Single-Page Dashboard</p>
+        <p class="skill-project-desc">Power Query + 1 DAX measure</p>
+      </a>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Cleaning Template Demo</p>
+        <p class="skill-project-desc">Reusable Power Query steps</p>
+      </a>
+    </div>
+
+    <div class="skill-column">
+      <p class="skill-column-label">Automation</p>
+      <a href="#" class="skill-project">
+        <p class="skill-project-title">Mini Webhook Flow</p>
+        <p class="skill-project-desc">n8n: clean &amp; log to Sheets</p>
+      </a>
+      <a href="integration-sync.html" class="skill-project">
+        <p class="skill-project-title">Sync Error Triage</p>
+        <p class="skill-project-desc">AI-assisted doc assistant</p>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<div class="flagship">
+  <p class="flagship-eyebrow">Flagship Work</p>
+  <h2>Bigger projects, multiple skills combined</h2>
+  <div class="flagship-grid">
+    <a href="pulse.html" class="flagship-card">
+      <p class="flagship-card-category">SQL · Power BI · DAX</p>
+      <p class="flagship-card-title">Pulse — CSM Dashboard</p>
+      <p class="flagship-card-desc">Galaxy schema, 13 DAX measures, four report pages.</p>
+    </a>
+    <a href="triage.html" class="flagship-card">
+      <p class="flagship-card-category">Automation · Python · AI</p>
+      <p class="flagship-card-title">Lead Qualification Bot</p>
+      <p class="flagship-card-desc">Live triage workflow, deployed on this site's own contact form.</p>
+    </a>
+  </div>
+</div>  
   <div class="about reveal" id="about">
     <div>
       <h2>Built from scratch,<br>on purpose.</h2>
