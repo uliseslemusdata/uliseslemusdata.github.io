@@ -225,7 +225,8 @@
     <p>After the split, I found a leading space in front of every "Non-U.S." value, invisible on screen but enough to make Excel treat "Non-U.S." and " Non-U.S." as two different values. I caught it because a pivot table on Region was showing more categories than it should have. Fixed it with Find and Replace.</p>
     <p>I also had a handful of rows where the original location text did not follow the standard city, country format. A few cities like Melbourne and New Delhi had a state or another city name sitting in the Region column instead of "U.S." or "Non-U.S." I traced each one back individually and corrected them by hand. It is a small thing, but it is the kind of edge case that only shows up once you actually look at your output instead of trusting the split worked everywhere.</p>
 
-    <div class="shot-placeholder">After: cleaned Table with City / Region split, headers formatted</div>
+    <img src="layoffs-after.png" alt="Cleaned layoffs Table with City and Region split, headers formatted" class="shot" />
+    <p class="shot-caption">After: cleaned Table with City / Region split, headers formatted</p>
 
     <h2>Building the pivot tables</h2>
     <p>Once the data was clean, I built four pivot tables, each answering a different question:</p>
@@ -236,7 +237,8 @@
       <li>A cross tab, Industry by Region, to see how the U.S. versus Non-U.S. split actually varied by industry. Hardware, for example, was almost entirely U.S. driven. Others were much more evenly split</li>
     </ul>
 
-    <div class="shot-placeholder">Pivot tables: Industry, Region, Average % by Industry, and the Industry × Region cross tab</div>
+    <img src="layoffs-pivots.png" alt="Four pivot tables: Total Laid Off by Industry, by Region, Average Percent Laid Off by Industry, and the Industry by Region cross tab" class="shot" />
+    <p class="shot-caption">Pivot tables: Industry, Region, Average % by Industry, and the Industry × Region cross tab</p>
 
     <h2>What this actually shows</h2>
     <p>Anyone can clean a dataset that was built to be messy. This one forced me to slow down, check my assumptions, and catch problems a formula alone would not have flagged. That is closer to what real data work actually looks like.</p>
