@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Layoffs Dataset — Cleaning &amp; Pivot Tables | Ulises Lemus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F5F4F2;
+      --white: #FFFFFF;
+      --ink: #111111;
+      --ink-mid: #444444;
+      --ink-dim: #888888;
+      --border: #E0DFDC;
+      --tag-bg: #EFEFED;
+      --accent: #C8521A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--ink); }
+
+    .article {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 96px;
+    }
+
+    .article-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .article h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 44px;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    .article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 5px 12px;
+    }
+
+    .article h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .article p {
+      font-size: 18px;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .article ul {
+      margin: 0 0 18px 24px;
+      color: var(--ink-mid);
+    }
+
+    .article li {
+      font-size: 18px;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+
+    .shot {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin: 32px 0;
+    }
+
+    .shot-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .shot-pair .shot { margin: 0; }
+
+    .shot-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-dim);
+      text-align: center;
+      margin-top: -20px;
+      margin-bottom: 32px;
+    }
+
+    .shot-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--tag-bg);
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--ink-dim);
+      text-align: center;
+      margin: 32px 0;
+      padding: 24px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-dim);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .article { padding: 48px 20px 64px; }
+      .article h1 { font-size: 34px; }
+      .shot-pair { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 8px; padding: 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-name">Ulises Lemus</a>
+    <a href="index.html#skills" class="back-link">← Back to projects</a>
+  </nav>
+
+  <div class="article">
+    <p class="article-eyebrow">Excel · Data Cleaning</p>
+    <h1>Layoffs Dataset: Cleaning and Pivot Tables</h1>
+    <div class="article-tags">
+      <span class="tag">Excel</span>
+      <span class="tag">Text to Columns</span>
+      <span class="tag">Pivot Tables</span>
+      <span class="tag">Data Quality</span>
+    </div>
+
+    <p style="margin-bottom: 32px;"><a href="layoffs-cleaning.xlsx" style="font-family:'DM Mono',monospace;font-size:11px;font-weight:300;text-decoration:none;padding:10px 20px;border-radius:3px;border:1px solid var(--border);color:var(--ink);display:inline-block;">Download the workbook →</a></p>
+
+    <p>I wanted a project that used real data, not something built to look messy on purpose. I found a dataset on Kaggle tracking global company layoffs since 2020, about 4,600 rows pulled from real news sources. It was a good fit because it was genuinely imperfect in a few specific ways, not chaotic everywhere, which meant I had to actually look at the data before deciding what to fix.</p>
+
+    <div class="shot-placeholder">Before: raw dataset, location as one combined field</div>
+
+    <h2>Checking before assuming</h2>
+    <p>My first instinct with any new dataset is to check for duplicates before touching anything else. I ran Remove Duplicates across every column and came back clean, no duplicates. That is a real finding worth noting, not a skipped step. Confirming a dataset is already clean on one front is just as useful as fixing one that is not.</p>
+
+    <h2>Splitting a combined field</h2>
+    <p>The location data came in as one field, something like "Calgary, Non-U.S." I split it into two columns, City and Region, using Text to Columns with a comma delimiter. Simple move, but it is the same logic behind a lot of real cleaning work: take one messy field and turn it into two usable ones.</p>
+
+    <h2>Catching what a formula alone would miss</h2>
+    <p>After the split, I found a leading space in front of every "Non-U.S." value, invisible on screen but enough to make Excel treat "Non-U.S." and " Non-U.S." as two different values. I caught it because a pivot table on Region was showing more categories than it should have. Fixed it with Find and Replace.</p>
+    <p>I also had a handful of rows where the original location text did not follow the standard city, country format. A few cities like Melbourne and New Delhi had a state or another city name sitting in the Region column instead of "U.S." or "Non-U.S." I traced each one back individually and corrected them by hand. It is a small thing, but it is the kind of edge case that only shows up once you actually look at your output instead of trusting the split worked everywhere.</p>
+
+    <div class="shot-placeholder">After: cleaned Table with City / Region split, headers formatted</div>
+
+    <h2>Building the pivot tables</h2>
+    <p>Once the data was clean, I built four pivot tables, each answering a different question:</p>
+    <ul>
+      <li>Total Laid Off by Industry, to see where the volume actually was</li>
+      <li>Total Laid Off by Region, a simple U.S. versus Non-U.S. split</li>
+      <li>Average Percentage Laid Off by Industry, since total headcount and percentage of workforce cut tell two different stories. Aerospace was near the top on average percentage laid off, even though it was one of the smaller industries by total headcount</li>
+      <li>A cross tab, Industry by Region, to see how the U.S. versus Non-U.S. split actually varied by industry. Hardware, for example, was almost entirely U.S. driven. Others were much more evenly split</li>
+    </ul>
+
+    <div class="shot-placeholder">Pivot tables: Industry, Region, Average % by Industry, and the Industry × Region cross tab</div>
+
+    <h2>What this actually shows</h2>
+    <p>Anyone can clean a dataset that was built to be messy. This one forced me to slow down, check my assumptions, and catch problems a formula alone would not have flagged. That is closer to what real data work actually looks like.</p>
+  </div>
+
+  <footer>
+    <span class="footer-text">Ulises Lemus · 2026</span>
+    <span class="footer-text">Houston, TX</span>
+  </footer>
+
+</body>
+</html>
