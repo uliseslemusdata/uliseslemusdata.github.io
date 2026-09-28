@@ -29,6 +29,7 @@
       line-height: 1.6;
     }
 
+    /* NAV */
     nav {
       display: flex;
       align-items: center;
@@ -61,6 +62,7 @@
 
     .nav-links a:hover { color: var(--ink); }
 
+    /* HERO */
     .hero {
       padding: 72px 48px 64px;
       max-width: 1360px;
@@ -167,6 +169,81 @@
       padding: 5px 12px;
     }
 
+    /* FEATURED (kept for potential future use; no longer referenced in body) */
+    .featured {
+      padding: 0 48px 20px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.3s both;
+    }
+
+    .featured-banner {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, #1A4A72 0%, #2A3A4A 45%, #C8521A 100%);
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 65% 50%, rgba(200,82,26,0.25) 0%, transparent 65%);
+    }
+
+    .featured-banner-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 40px;
+      font-weight: 500;
+      color: #FFFFFF;
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.01em;
+    }
+
+    .featured-body {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      padding: 28px 32px 32px;
+    }
+
+    .featured-category {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .featured-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .featured-desc {
+      font-size: 17px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+      max-width: 680px;
+      margin-bottom: 24px;
+    }
+
+    .featured-btns {
+      display: flex;
+      gap: 12px;
+    }
+
     .btn {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
@@ -187,6 +264,7 @@
       border-color: var(--ink);
     }
 
+    /* SKILLS SECTION */
     .skills {
       padding: 80px 48px;
       border-top: 1px solid var(--border);
@@ -288,6 +366,7 @@
       margin-top: 12px;
     }
 
+    /* ABOUT */
     .about {
       padding: 80px 48px;
       border-top: 1px solid var(--border);
@@ -337,6 +416,7 @@
       color: var(--ink);
     }
 
+    /* CONTACT */
     .contact {
       padding: 80px 48px;
       border-top: 1px solid var(--border);
@@ -360,6 +440,7 @@
 
     .contact-links { display: flex; gap: 12px; }
 
+    /* CONTACT FORM */
     .contact-form {
       max-width: 520px;
       margin-top: 8px;
@@ -419,8 +500,14 @@
       transition: opacity 0.2s;
     }
 
-    .form-submit:hover { opacity: 0.85; }
-    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-submit:hover {
+      opacity: 0.85;
+    }
+
+    .form-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
     .form-status {
       font-family: 'DM Mono', monospace;
@@ -430,8 +517,15 @@
       display: none;
     }
 
-    .form-status.success { color: #2A6B4A; display: block; }
-    .form-status.error { color: #B5442B; display: block; }
+    .form-status.success {
+      color: #2A6B4A;
+      display: block;
+    }
+
+    .form-status.error {
+      color: #B5442B;
+      display: block;
+    }
 
     .form-divider {
       font-family: 'DM Mono', monospace;
@@ -440,6 +534,7 @@
       margin: 28px 0 20px;
     }
 
+    /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
       padding: 24px 48px;
@@ -538,6 +633,10 @@
           <p class="skill-project-title">Layoffs Cleaning + Pivots</p>
           <p class="skill-project-desc">Split fields, 4 pivot tables</p>
         </a>
+        <a href="olist-lookup.html" class="skill-project">
+          <p class="skill-project-title">Olist Lookups + Revenue Pivot</p>
+          <p class="skill-project-desc">XLOOKUP across 3 tables</p>
+        </a>
       </div>
 
       <div class="skill-column">
@@ -621,6 +720,7 @@
         <textarea class="form-textarea" id="message" name="message" required></textarea>
       </div>
 
+      <!-- Honeypot field: hidden from real users via CSS, bots tend to fill every field they find -->
       <div class="form-row" style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
         <label for="website">Website</label>
         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
@@ -666,6 +766,8 @@
     leadForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
+      // Honeypot check: if this hidden field has anything in it, it's almost certainly a bot.
+      // Silently pretend success and stop — never hits the webhook, never wastes an execution.
       const honeypot = document.getElementById('website').value;
       if (honeypot) {
         formStatus.textContent = "Thanks — you'll hear back shortly.";
@@ -688,6 +790,8 @@
       };
 
       try {
+        // Webhook is set to "Respond: Using 'Respond to Webhook' Node," so this waits
+        // for the AI qualification + parsing to complete before resolving.
         const response = await fetch(WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
