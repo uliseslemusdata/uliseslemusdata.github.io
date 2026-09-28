@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olist Lookups and Revenue Pivot | Ulises Lemus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F5F4F2;
+      --white: #FFFFFF;
+      --ink: #111111;
+      --ink-mid: #444444;
+      --ink-dim: #888888;
+      --border: #E0DFDC;
+      --tag-bg: #EFEFED;
+      --accent: #C8521A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--ink); }
+
+    .article {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 96px;
+    }
+
+    .article-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .article h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 44px;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    .article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 5px 12px;
+    }
+
+    .article h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .article p {
+      font-size: 18px;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .article ul {
+      margin: 0 0 18px 24px;
+      color: var(--ink-mid);
+    }
+
+    .article li {
+      font-size: 18px;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+
+    .shot {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin: 32px 0;
+    }
+
+    .shot-narrow {
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .shot-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .shot-pair .shot { margin: 0; }
+
+    .shot-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-dim);
+      text-align: center;
+      margin-top: -20px;
+      margin-bottom: 32px;
+    }
+
+    .shot-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--tag-bg);
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--ink-dim);
+      text-align: center;
+      margin: 32px 0;
+      padding: 24px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-dim);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .article { padding: 48px 20px 64px; }
+      .article h1 { font-size: 34px; }
+      .shot-pair { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 8px; padding: 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-name">Ulises Lemus</a>
+    <a href="index.html#skills" class="back-link">← Back to projects</a>
+  </nav>
+
+  <div class="article">
+    <p class="article-eyebrow">Excel · Lookups</p>
+    <h1>Olist Ecommerce: Lookups Across Three Tables</h1>
+    <div class="article-tags">
+      <span class="tag">Excel</span>
+      <span class="tag">XLOOKUP</span>
+      <span class="tag">IFERROR</span>
+      <span class="tag">Pivot Tables</span>
+    </div>
+
+    <p style="margin-bottom: 32px;"><a href="olist-lookup.xlsx" style="font-family:'DM Mono',monospace;font-size:11px;font-weight:300;text-decoration:none;padding:10px 20px;border-radius:3px;border:1px solid var(--border);color:var(--ink);display:inline-block;">Download the workbook →</a></p>
+
+    <p>After the layoffs project, I wanted one built around a different core Excel skill: pulling data from one table into another. That is what XLOOKUP is for, and it shows up in a lot of analyst job descriptions. I used the Brazilian ecommerce dataset from Olist on Kaggle, which is real order data from 2016 to 2018 where the tables already come separate, so I did not have to invent a second table just to make a lookup make sense.</p>
+
+    <h2>Setting up two tables</h2>
+    <p>I pulled two files, order items and products. The order items file had over 112,000 rows, so I kept the first 3,000 to keep the workbook fast. Products had about 33,000 rows and I kept all of them. Before touching anything I checked both for duplicates and found none. Then I cleaned up the headers, converted both to Tables, and deleted the columns the analysis was never going to use, like product weight and dimensions. A few rows in the order items table now look identical, because an order can include several units of the same product. An order item ID column told them apart when I ran the duplicate check, and I deleted it afterward since the analysis did not use it.</p>
+
+    <h2>The lookup</h2>
+    <p>The order items table only had a product ID, not what the product actually was. The products table had the category. So I used XLOOKUP to pull each product's category into the order items table, matching on product ID. I also added a revenue column, defined as price plus freight value, so there was something to actually add up.</p>
+
+    <h2>Translating the categories</h2>
+    <p>The categories came through in Portuguese, since Olist is a Brazilian company. Olist publishes a third file that maps each Portuguese category to English, so I added it as a third sheet and chained a second lookup onto the first: order items looks up products, and products looks up the translation table. I hid the translation sheet afterward so the workbook stays clean, but the formulas still run off it. The English names still had underscores and lowercase letters, so I turned them into readable labels with PROPER and SUBSTITUTE. Bed_bath_table became Bed Bath Table.</p>
+
+    <img src="olist-lookup.png" alt="Order Items table with the Portuguese category, English category, and revenue columns" class="shot" />
+    <p class="shot-caption">Order Items with the lookup columns: Portuguese category, English category, and revenue</p>
+
+    <h2>What did not match cleanly</h2>
+    <p>Two things showed up along the way. First, spelling errors in the translation file itself: one category was spelled "costruction" and another "fashio," each missing an n. I fixed both at the source so the corrections flowed through everywhere.</p>
+    <p>Second, one set of products came back with a category of 0 instead of a name. There was no usable category for them in the source data, so the translation lookup had nothing to match and returned an error, which showed up as #N/A in the pivot table. I wrapped the lookup in IFERROR so those rows now read Uncategorized. I did not want to delete them or hide the error, since the revenue is real (about $4,500 in this sample) and it is more honest to show it as its own line.</p>
+
+    <h2>Revenue by category</h2>
+    <p>The last step was a pivot table of total revenue by category, sorted from highest to lowest. The sample came to about $426,000 in revenue, and health and beauty, bed bath and table, and computer accessories each brought in more than $33,000.</p>
+
+    <img src="olist-pivot.png" alt="Pivot table of total revenue by product category, sorted highest to lowest" class="shot shot-narrow" />
+    <p class="shot-caption">Total revenue by product category</p>
+
+    <h2>What this actually shows</h2>
+    <p>A lookup is only as good as the tables behind it. The formula was the easy part. The real work was checking what came back, translating it, and deciding what to do with the rows that did not fit.</p>
+  </div>
+
+  <footer>
+    <span class="footer-text">Ulises Lemus · 2026</span>
+    <span class="footer-text">Houston, TX</span>
+  </footer>
+
+</body>
+</html>
